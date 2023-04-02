@@ -6,7 +6,7 @@ export default function App() {
 
   return (
     <div className="App">
-      {t("kk")}
+      {t("kkk")}
     </div>
   )
 }
