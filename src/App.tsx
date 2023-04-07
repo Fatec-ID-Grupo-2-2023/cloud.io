@@ -1,74 +1,49 @@
-import { useTranslation } from "react-i18next"
-import React, { useState, useEffect } from 'react';
-import { googleLogout, TokenResponse, useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import { useEffect } from 'react'
+import LoginButton from './components/Login'
+import LogoutButton from './components/Logout'
+import { gapi } from 'gapi-script'
+import GoogleLogin from 'react-google-login'
+import { Button } from '@mui/material'
+import axios from 'axios'
+
+const clientId = "840694087672-q5jr4irk22t3ompetcsu4n9m0ods8ack.apps.googleusercontent.com"
+const apiKey = "AIzaSyApWKH5LH8FD5Y7DP4_5COYy46v96PAJIE"
+const scope = "https://www.googleapis.com/auth/drive"
+
+function fetchFiles() {
+  const accessToken = gapi.auth.getToken().access_token
+
+  axios.get(
+    'https://www.googleapis.com/drive/v3/files',
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  ).then((response) => {
+    console.log(response)
+  })
+}
 
 function App() {
-  const [user, setUser] = useState<Omit<TokenResponse, "error" | "error_description" | "error_uri">>();
-  const [profile, setProfile] = useState<any>([]);
-  const { t } = useTranslation();
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
-    onError: (error) => console.log('Login Failed:', error)
-  });
-
-  useEffect(
-    () => {
-      if (user) {
-        axios
-          .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-              Accept: 'application/json'
-            }
-          })
-          .then((res) => {
-            setProfile(res.data);
-          })
-          .catch((err) => console.log(err));
-      }
-    },
-    [user]
-  );
-
-  function kk() {
-    if (user) {
-      axios.get('https://www.googleapis.com/drive/v3/files', {
-        headers: {
-          Authorization: `Bearer ${user.access_token}`,
-          Accept: 'application/json'
-        }
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        apiKey,
+        clientId,
+        scope
       })
     }
-  }
-
-  // log out function to log the user out of google and set the profile array to null
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
-  };
+    gapi.load('client:auth2', start)
+  }, [])
 
   return (
-    <div>
-      <h2>React Google Login</h2>
-      <br />
-      <br />
-      {profile ? (
-        <div>
-          <img src={profile.picture} alt="user image" />
-          <h3>User Logged in</h3>
-          <p>Name: {profile.name}</p>
-          <p>Email Address: {profile.email}</p>
-          <br />
-          <br />
-          <button onClick={logOut}>Log out</button>
-          <button onClick={() => kk()}>kk</button>
-        </div>
-      ) : (
-        <button onClick={() => login()}>Sign in with Google 🚀 </button>
-      )}
+    <div className="App">
+      <LoginButton />
+      <LogoutButton />
+      <Button onClick={() => fetchFiles()}>Show Files</Button>
     </div>
-  );
+  )
 }
 export default App;
