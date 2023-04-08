@@ -1,23 +1,31 @@
-import { Box, IconButton } from "@mui/material";
-import AccountIcon from '../../assets/general/Account.svg';
-import MenuIcon from '../../assets/general/Menu.svg';
-import "./style.scss";
-import Sidebar from "../../pages/Sidebar";
-import { useState } from "react";
+import { Avatar, Box, IconButton } from "@mui/material";
+import { useContext, useState } from "react";
+import AccountIcon from '../../assets/Account.svg';
+import MenuIcon from '../../assets/Menu.svg';
+import { GlobalContext } from "../../contexts/GlobalContext";
 import toggleDrawer from "../../helpers/toggleSidebar";
+import Sidebar from "../Sidebar";
+import "./style.scss";
 
 export default function Header() {
-
     const [sidebar, setSidebar] = useState(false);
+    const { user } = useContext(GlobalContext);
 
     return (
-        <Box className="header">
+        <Box id="header">
             <Sidebar open={sidebar} onClose={toggleDrawer(() => setSidebar(false))} />
             <IconButton color="primary" component="label" onClick={toggleDrawer(() => setSidebar(true))}>
                 <img src={MenuIcon} alt="" />
             </IconButton>
-            <IconButton color="primary" component="label">
-                <img src={AccountIcon} alt="" />
+            <IconButton color="primary" component="label" onClick={() => console.log(user)}>
+                <Avatar
+                    className="avatar"
+                    src={user?.profileObj.imageUrl ?? AccountIcon}
+                    alt={user?.profileObj.givenName ?? "User"}
+                    imgProps={{
+                        referrerPolicy: "no-referrer"
+                    }}
+                />
             </IconButton>
         </Box>
     );
