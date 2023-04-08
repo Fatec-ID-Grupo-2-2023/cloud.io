@@ -1,1 +1,4 @@
-{}
+{
+    "HiUser": "Olá, {{user}}",
+    "FreeStorageMsg": "Você tem <span>{{freeStorage}} GB</span> de espaço disponível"
+}
