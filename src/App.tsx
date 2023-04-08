@@ -1,12 +1,14 @@
-import { useTranslation } from "react-i18next"
+import { Box } from "@mui/material";
+import { ReactNode } from 'react';
 
-export default function App() {
+type IProps = {
+  children: ReactNode;
+}
 
-  const { t } = useTranslation();
-
+export default function App({ children }: IProps) {
   return (
-    <div className="App">
-      {t("kk")}
-    </div>
+    <Box id="App">
+      {children}
+    </Box>
   )
 }
