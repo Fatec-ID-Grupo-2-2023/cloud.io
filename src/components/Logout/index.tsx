@@ -1,4 +1,3 @@
-import React from 'react'
 import { GoogleLogout } from 'react-google-login'
 
 const clientId = "840694087672-q5jr4irk22t3ompetcsu4n9m0ods8ack.apps.googleusercontent.com"
