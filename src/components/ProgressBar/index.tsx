@@ -22,17 +22,17 @@ export default function ProgressBar({ usedCapacity, totalCapacity }: IProps) {
                 <Box className="labels">
                     <Typography
                         variant="caption"
-                        fontSize={'small'}
+                        fontSize={10}
                         fontWeight={'medium'}
                     >
-                        {usedCapacity} GB
+                        {usedCapacity.toFixed(2)} GB
                     </Typography>
                     <Typography
                         variant="caption"
-                        fontSize={'small'}
+                        fontSize={10}
                         fontWeight={'medium'}
                     >
-                        {totalCapacity} GB
+                        {totalCapacity.toFixed(2)} GB
                     </Typography>
                 </Box>
             )}
