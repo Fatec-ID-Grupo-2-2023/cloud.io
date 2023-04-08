@@ -1,0 +1,32 @@
+#navbar {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    background: var(--purple1);
+    padding: 0 calc(100vw / 4 - 30px);
+
+    >div {
+        padding: 0;
+    }
+
+    .speed-dial {
+        position: fixed;
+        bottom: 28px;
+        width: 80px;
+        left: calc(50vw - 40px);
+
+        button {
+            width: 60px;
+            height: 60px;
+            background-color: var(--black3);
+
+            .speed-dial-item {
+                color: var(--purple1)
+            }
+        }
+
+        >button {
+            color: var(--green);
+        }
+    }
+}
