@@ -1,11 +1,11 @@
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import "./style.scss"
 import { useTranslation } from "react-i18next";
-import RecentIcon from '../../assets/general/Recents.svg'
-import SettingsIcon from '../../assets/general/Settings.svg'
-import LogoutIcon from '../../assets/general/Logout.svg'
+import RecentIcon from '../../assets/Recents.svg'
+import SettingsIcon from '../../assets/Settings.svg'
+import LogoutIcon from '../../assets/Logout.svg'
 import Logo from '../../assets/LogoAndName.svg'
-import Cloud from '../../assets/general/Cloud.svg'
+import Cloud from '../../assets/Cloud.svg'
 import ProgressBar from "../../components/ProgressBar";
 
 interface IProps {
@@ -37,17 +37,17 @@ export default function Sidebar({ open, onClose }: IProps) {
 
     return (
         <Drawer id="sidebar" anchor={'left'} open={open} onClose={onClose}>
-            <Box id="header">
+            <Box className="header">
                 <img src={Logo}></img>
             </Box>
-            <Box id="storage">
-                <Box id="item">
+            <Box className="storage">
+                <Box className="item">
                     <img src={Cloud}></img>
                     <Typography variant="body1">Storage</Typography>
                 </Box>
                 <ProgressBar usedCapacity={36.5} totalCapacity={100}></ProgressBar>
             </Box>
-            <List id="content">
+            <List className="content">
                 {items.map(({ text, img, onClick }, index) => (
                     <ListItem key={index} disablePadding>
                         <ListItemButton onClick={onClick}>

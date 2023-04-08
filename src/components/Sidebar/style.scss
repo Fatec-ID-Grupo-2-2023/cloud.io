@@ -1,5 +1,5 @@
 #sidebar {
-    #header {
+    .header {
         padding: 20px;
         background-color: var(--black2);
         display: flex;
@@ -8,7 +8,7 @@
         margin-bottom: -2px;
     }
 
-    #storage {
+    .storage {
         padding: 8px 16px;
         display: flex;
         flex-direction: column;
@@ -21,14 +21,14 @@
         line-height: 1.5;
         letter-spacing: 0.00938em;
 
-        #item {
+        .item {
             display: flex;
             align-items: center;
             gap: 10px;
         }
     }
 
-    #content {
+    .content {
         width: 70vw;
         height: 100%;
         display: flex;
