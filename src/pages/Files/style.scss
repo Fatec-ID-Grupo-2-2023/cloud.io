@@ -1,0 +1,9 @@
+#files {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    #search-input {
+        padding: 0 32px;
+    }
+}
