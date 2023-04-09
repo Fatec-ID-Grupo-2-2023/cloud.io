@@ -1,4 +1,5 @@
 {
-    "HiUser": "Hi, {{user}}",
-    "FreeStorageMsg": "You have <span>{{freeStorage}} GB</span> of free storage"
+  "HiUser": "Hi, {{user}}",
+  "FreeStorageMsg": "You have <span>{{freeStorage}} GB</span> of free storage",
+  "Search": "Search"
 }
