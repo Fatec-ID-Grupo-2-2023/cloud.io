@@ -1,17 +1,19 @@
 import { Box, Card, CardActionArea, CardActions, CardContent, Grid, IconButton, Typography } from "@mui/material";
 import getFileIcon from "./getFileIcon";
 import DotsIcon from "../../assets/dots.svg";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
     fileName: string;
     isList?: boolean;
     extension?: string;
-    lastModified?: string;
-    size?: number;
+    lastModified?: Date;
+    size?: string;
+    onClick: () => void;
 }
 
-export function FileListItem({ isList = true, fileName, extension, lastModified, size }: IProps) {
-
+export function FileListItem({ isList = true, fileName, extension, lastModified, size, onClick }: IProps) {
+    const { t } = useTranslation();
     return (
         <Grid
             item
@@ -24,12 +26,17 @@ export function FileListItem({ isList = true, fileName, extension, lastModified,
         >
             {isList ? (
                 <Card className='card list'>
-                    <CardActionArea>
+                    <CardActionArea onClick={onClick}>
                         <CardContent className='content'>
                             <img className="file-icon" src={getFileIcon(extension)} />
                             <Box className='text'>
                                 <Typography variant="h3" >{fileName}</Typography>
-                                <Typography variant="h4" >{lastModified}{(lastModified && size) && ' - '}{size}</Typography>
+                                <Typography variant="h4" >
+                                    {lastModified && `${t('LastModifiedAt')} `}
+                                    {lastModified?.toLocaleDateString()}
+                                    {(lastModified && size) && ' - '}
+                                    {size}
+                                </Typography>
                             </Box>
                         </CardContent>
                     </CardActionArea>
@@ -46,7 +53,7 @@ export function FileListItem({ isList = true, fileName, extension, lastModified,
                             <img src={DotsIcon} />
                         </IconButton>
                     </CardActions>
-                    <CardActionArea>
+                    <CardActionArea onClick={onClick}>
                         <CardContent className='content'>
                             <img className="file-icon" src={getFileIcon(extension)} />
                             <Typography variant="h3" >{fileName}</Typography>

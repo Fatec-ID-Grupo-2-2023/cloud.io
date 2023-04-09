@@ -1,43 +1,86 @@
 import { Box, Breadcrumbs, Grid, IconButton, Link, Typography } from "@mui/material";
+import { useState } from "react";
 import GridIcon from "../../assets/blocks.svg";
 import ListIcon from "../../assets/list.svg";
 import useToggle from "../../helpers/useToggle";
+import { ICloudioFile } from "../../models/cloud";
+import { FileListItem } from "./FileListItem";
 import { IPath } from "./model";
 import "./style.scss";
-import { FileListItem } from "./FileListItem";
+import { convertSizeFile } from "../../utils/convertUnits";
+import { useTranslation } from "react-i18next";
 
 interface IProps {
     id?: string;
-    path?: IPath[];
+    title?: string | null;
     link?: string;
     linkText?: string;
     layout?: boolean;
+    files: ICloudioFile[];
+    breadcrumbs?: boolean;
 }
 
-export default function FilesExplorer({ id, path, link, linkText, layout }: IProps) {
+export default function FilesExplorer({ id, title, link, linkText, layout, files, breadcrumbs = true }: IProps) {
     const [currentLayout, toggleLayout] = useToggle("list", "grid");
+    const [path, setPath] = useState<IPath[]>();
+    const { t } = useTranslation();
+
+    const currentFiles = path?.length ? path[path.length - 1].childrens : files;
+
+    console.log(path)
+
+    function handleBreadcrumbClick(id: string) {
+        const newPath = path?.slice(0, path.findIndex((item) => item.id === id) + 1);
+        setPath(newPath);
+    }
+
+    function onFileClick(id: string, name: string, webViewLink: string, childrens: ICloudioFile[]) {
+        if (childrens.length) {
+            setPath([
+                ...path || [],
+                {
+                    id,
+                    name,
+                    childrens,
+                },
+            ]);
+        } else {
+            window.open(webViewLink, "_blank");
+        }
+    }
 
     return (
         <Box id={id} className="files-explorer">
             <Box className="header">
-                <Breadcrumbs maxItems={3}>
-                    {path?.map(({ name, link }, index) => (
-                        <>
-                            {index === path.length - 1 ? (
-                                <Typography color="text.primary">{name}</Typography>
-                            ) : (
-                                <Link
-                                    key={index}
-                                    underline="hover"
-                                    color="inherit"
-                                    href={link}
-                                >
-                                    {name}
-                                </Link>
-                            )}
-                        </>
-                    ))}
-                </Breadcrumbs>
+                {(path && breadcrumbs) ? (
+                    <Breadcrumbs maxItems={3}>
+                        <Link
+                            underline="hover"
+                            color="inherit"
+                            onClick={() => setPath(undefined)}
+                        >
+                            {t('Files')}
+                        </Link>
+                        {path?.map(({ id, name }, index) => (
+                            <>
+                                {index === path.length - 1 ? (
+                                    <Typography key={index} color="text.primary">{name}</Typography>
+                                ) : (
+                                    <Link
+                                        key={index}
+                                        underline="hover"
+                                        color="inherit"
+                                        onClick={() => handleBreadcrumbClick(id)}
+                                    >
+                                        {name}
+                                    </Link>
+                                )}
+                            </>
+                        ))}
+                    </Breadcrumbs>
+                ) : (
+                    <Typography variant="h3" className="title">{title}</Typography>
+                )}
                 <Box className="link-layout" >
                     {(link && linkText) && (
                         <Link
@@ -59,10 +102,17 @@ export default function FilesExplorer({ id, path, link, linkText, layout }: IPro
                 spacing={2}
                 className="content"
             >
-                <FileListItem isList={currentLayout === 'list'} fileName="kk" lastModified="kk" />
-                <FileListItem isList={currentLayout === 'list'} fileName="kk" extension="zip" size={20} />
-                <FileListItem isList={currentLayout === 'list'} fileName="kk" extension="pdf" lastModified="kk" size={20} />
-
+                {currentFiles.map(({ id, name, extension, size, modifiedTime, children, webViewLink }, index) => (
+                    <FileListItem
+                        key={index}
+                        isList={currentLayout === 'list'}
+                        fileName={name}
+                        extension={children.length ? 'folder' : extension}
+                        size={size ? convertSizeFile(size) : undefined}
+                        lastModified={modifiedTime}
+                        onClick={() => onFileClick(id, name, webViewLink, children)}
+                    />
+                ))}
             </Grid>
         </Box>
     );

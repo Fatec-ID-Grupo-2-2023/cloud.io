@@ -7,6 +7,8 @@ import LogoutIcon from '../../assets/Logout.svg'
 import Logo from '../../assets/LogoAndName.svg'
 import Cloud from '../../assets/Cloud.svg'
 import ProgressBar from "../../components/ProgressBar";
+import { useContext } from "react";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 interface IProps {
     open: boolean;
@@ -14,8 +16,8 @@ interface IProps {
 }
 
 export default function Sidebar({ open, onClose }: IProps) {
-
     const { t } = useTranslation();
+    const { cloudStorage: { usage, limit } } = useContext(GlobalContext);
 
     const items = [
         {
@@ -38,14 +40,14 @@ export default function Sidebar({ open, onClose }: IProps) {
     return (
         <Drawer id="sidebar" anchor={'left'} open={open} onClose={onClose}>
             <Box className="header">
-                <img src={Logo}></img>
+                <img src={Logo} />
             </Box>
             <Box className="storage">
                 <Box className="item">
-                    <img src={Cloud}></img>
-                    <Typography variant="body1">Storage</Typography>
+                    <img src={Cloud} />
+                    <Typography variant="body1">{t('Storage')}</Typography>
                 </Box>
-                <ProgressBar usedCapacity={36.5} totalCapacity={100}></ProgressBar>
+                <ProgressBar usedCapacity={usage} totalCapacity={limit} />
             </Box>
             <List className="content">
                 {items.map(({ text, img, onClick }, index) => (

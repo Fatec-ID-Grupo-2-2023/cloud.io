@@ -6,23 +6,29 @@ import TextFieldIcon from '../../components/TextFieldIcon';
 import SearchIcon from '../../assets/search.svg';
 import { useTranslation } from 'react-i18next';
 import FilesExplorer from '../../components/FilesExplorer';
+import { useContext } from 'react';
+import { GlobalContext } from '../../contexts/GlobalContext';
 
 export default function Files() {
     const { t } = useTranslation();
+    const { cloudFiles } = useContext(GlobalContext);
 
-    const path = [
-        { name: 'Home', link: '#' },
-        { name: 'Catalog', link: '#' },
-        { name: 'Accessories', link: '#' },
-        { name: 'New Collection', link: '#' },
-        { name: 'Belts', link: '#' },
-    ]
+    const filteredFiles = cloudFiles;
 
     return (
         <Box id="files">
             <Header />
-            <TextFieldIcon id="search-input" icon={SearchIcon} label={t('Search')} />
-            <FilesExplorer id='file-explorer' path={path} layout />
+            <TextFieldIcon
+                id="search-input"
+                icon={SearchIcon}
+                label={t('Search')}
+            />
+            <FilesExplorer
+                id='file-explorer'
+                title={t('Files')}
+                files={filteredFiles}
+                layout
+            />
             <NavBar />
         </Box>
     );

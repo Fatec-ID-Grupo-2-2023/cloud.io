@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { IGoogleAPIFiles, IGoogleDriveStorage, IGoogleUser } from '../models/google';
 import { ICloudioFile, ICloudioStorage } from '../models/cloud';
+import { IGoogleUser } from '../models/google';
 
 export interface IGlobalContext {
     user: IGoogleUser;
@@ -8,11 +8,6 @@ export interface IGlobalContext {
 
     cloudFiles: ICloudioFile[];
     cloudStorage: ICloudioStorage;
-
-    googleDriveFiles: IGoogleAPIFiles;
-    googleDriveStorage: IGoogleDriveStorage;
-    setGoogleDriveFiles: (googleDriveFiles: IGoogleAPIFiles) => void;
-    setGoogleDriveStorage: (googleDriveStorage: IGoogleDriveStorage) => void;
 }
 
 export const GlobalContext = createContext<IGlobalContext>({
@@ -22,19 +17,7 @@ export const GlobalContext = createContext<IGlobalContext>({
     cloudFiles: [],
     cloudStorage: {
         usage: 0,
-        limit: 0
-    },
-
-    googleDriveFiles: {
-        files: [],
-        nextPageToken: ''
-    },
-    googleDriveStorage: {
-        usage: 0,
         limit: 0,
-        usageInDrive: 0,
-        usageInDriveTrash: 0
+        accounts: []
     },
-    setGoogleDriveFiles: (googleDriveFiles: IGoogleAPIFiles) => { },
-    setGoogleDriveStorage: (googleDriveStorage: IGoogleDriveStorage) => { }
 });

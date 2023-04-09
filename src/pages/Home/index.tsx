@@ -1,28 +1,26 @@
 import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import CloudAccount from "../../components/CloudAccount";
-import Header from "../../components/Header";
-import ProgressBar from "../../components/ProgressBar";
-import { GlobalContext } from "../../contexts/GlobalContext";
-import "./style.scss";
-
-import DropBoxIcon from "../../assets/dropbox.svg";
-import GoogleDriveIcon from "../../assets/google-drive.svg";
 import DocIcon from "../../assets/empty-doc.svg";
 import ImageIcon from "../../assets/image.svg";
-import VideoIcon from "../../assets/video.svg";
 import MusicIcon from "../../assets/music.svg";
-import OneDriveIcon from "../../assets/one-drive.svg";
+import VideoIcon from "../../assets/video.svg";
 import CategoryButton from "../../components/CategoryButton";
+import CloudAccount from "../../components/CloudAccount";
 import CloudAccountEmpty from "../../components/CloudAccountEmpty";
+import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
+import ProgressBar from "../../components/ProgressBar";
+import { GlobalContext } from "../../contexts/GlobalContext";
+import { convertSizeFile } from "../../utils/convertUnits";
+import getCloudIcon from "./getCloudIcon";
+import "./style.scss";
 
 export default function Home() {
-    const { user, cloudStorage, googleDriveStorage } = useContext(GlobalContext);
+    const { user, cloudStorage: { usage, limit, accounts } } = useContext(GlobalContext);
     const { t } = useTranslation();
 
-    const freeStorage = (cloudStorage.limit - cloudStorage.usage).toFixed(2);
+    const freeStorage = convertSizeFile(limit - usage);
 
     return (
         <Box id="home">
@@ -38,15 +36,15 @@ export default function Home() {
                     }}
                 />
                 <ProgressBar
-                    usedCapacity={cloudStorage.usage}
-                    totalCapacity={cloudStorage.limit}
+                    usedCapacity={usage}
+                    totalCapacity={limit}
                 />
             </section>
 
             <section id="cloud-accounts" >
-                <CloudAccount icon={GoogleDriveIcon} title="Google Drive" limit={googleDriveStorage.limit} usage={googleDriveStorage.usage} />
-                <CloudAccount icon={OneDriveIcon} title="One Drive" limit={googleDriveStorage.limit} usage={googleDriveStorage.usage} />
-                <CloudAccount icon={DropBoxIcon} title="Drop Box" limit={googleDriveStorage.limit} usage={googleDriveStorage.usage} />
+                {accounts.map(({ id, name, usage, limit }, index) => (
+                    <CloudAccount key={index} icon={getCloudIcon(id)} title={name} usage={usage} limit={limit} />
+                ))}
                 <CloudAccountEmpty onClick={() => console.log('kk')} />
             </section>
 

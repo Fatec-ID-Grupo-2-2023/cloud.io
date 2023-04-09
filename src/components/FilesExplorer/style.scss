@@ -22,6 +22,12 @@
                 }
             }
         }
+
+        .title {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--black6);
+        }
     }
 
     .content {
@@ -36,7 +42,7 @@
                 box-shadow: none;
 
                 .menu {
-                    position: fixed;
+                    position: absolute;
                     align-self: flex-end;
                     padding: 0;
                     z-index: 1;
@@ -58,6 +64,10 @@
                         font-size: 20px;
                         font-weight: 500;
                         color: var(--black6);
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        width: 80%;
                     }
                 }
             }
@@ -79,8 +89,12 @@
 
                         gap: 4px;
 
+                        h3 {
+                            text-align: left;
+                        }
+
                         h4 {
-                            font-size: 16px;
+                            font-size: 12px;
                             font-weight: 400;
                             color: var(--black4);
                         }
@@ -97,6 +111,10 @@
                     .file-icon {
                         width: 70px;
                         height: 70px;
+                    }
+
+                    h3 {
+                        text-align: center;
                     }
                 }
             }
