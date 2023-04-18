@@ -19,6 +19,10 @@ export default function Login() {
         <div id="signInButton">
             <GoogleLogin
                 clientId={clientId}
+                render={renderProps => (
+                    <button style={{ backgroundColor: '#262626', border: 'none', borderRadius: '10px' }} onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <img alt='google' src='src\assets\google.svg' /></button>
+                )}
                 buttonText='Login'
                 onSuccess={onSuccess}
                 onFailure={() => console.log('kk')}
