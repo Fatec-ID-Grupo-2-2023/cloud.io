@@ -15,12 +15,19 @@ import { GlobalContext } from "../../contexts/GlobalContext";
 import { convertSizeFile } from "../../utils/convertUnits";
 import getCloudIcon from "./getCloudIcon";
 import "./style.scss";
+import { useHistory } from "react-router-dom";
+import { ICloudioOrigin, ICloudioType } from "../../models/cloud";
 
 export default function Home() {
     const { user, cloudStorage: { usage, limit, accounts } } = useContext(GlobalContext);
     const { t } = useTranslation();
+    const history = useHistory();
 
     const freeStorage = convertSizeFile(limit - usage);
+
+    function handleClick(origin: ICloudioOrigin = "all", type: ICloudioType = "all") {
+        history.push(`/files/${origin}/${type}`);
+    }
 
     return (
         <Box id="home">
@@ -43,16 +50,16 @@ export default function Home() {
 
             <section id="cloud-accounts" >
                 {accounts.map(({ id, name, usage, limit }, index) => (
-                    <CloudAccount key={index} icon={getCloudIcon(id)} title={name} usage={usage} limit={limit} />
+                    <CloudAccount key={index} icon={getCloudIcon(id)} title={name} usage={usage} limit={limit} onClick={() => handleClick(id)} />
                 ))}
                 <CloudAccountEmpty onClick={() => console.log('kk')} />
             </section>
 
             <section id="file-categories" >
-                <CategoryButton icon={DocIcon} />
-                <CategoryButton icon={ImageIcon} />
-                <CategoryButton icon={VideoIcon} />
-                <CategoryButton icon={MusicIcon} />
+                <CategoryButton icon={DocIcon} onClick={() => handleClick("all", "document")} />
+                <CategoryButton icon={ImageIcon} onClick={() => handleClick("all", "image")} />
+                <CategoryButton icon={VideoIcon} onClick={() => handleClick("all", "video")} />
+                <CategoryButton icon={MusicIcon} onClick={() => handleClick("all", "audio")} />
             </section>
 
             <NavBar />

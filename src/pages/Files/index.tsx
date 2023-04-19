@@ -1,28 +1,34 @@
 import { Box } from '@mui/material';
-import './style.scss';
-import NavBar from '../../components/NavBar';
-import Header from '../../components/Header';
-import TextFieldIcon from '../../components/TextFieldIcon';
-import SearchIcon from '../../assets/search.svg';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FilesExplorer from '../../components/FilesExplorer';
-import { useContext } from 'react';
+import Header from '../../components/Header';
+import NavBar from '../../components/NavBar';
+import SearchField from '../../components/SearchField';
 import { GlobalContext } from '../../contexts/GlobalContext';
+import './style.scss';
+import filterFiles from './filterFiles';
+import { useParams } from 'react-router-dom';
+import { ICloudioOrigin, ICloudioType } from '../../models/cloud';
+
+interface IParams {
+    origin?: ICloudioOrigin;
+    type?: ICloudioType;
+}
 
 export default function Files() {
     const { t } = useTranslation();
     const { cloudFiles } = useContext(GlobalContext);
+    const [search, setSearch] = useState('');
 
-    const filteredFiles = cloudFiles;
+    const { origin, type } = useParams<IParams>()
+
+    const filteredFiles = filterFiles(cloudFiles, search, origin, type);
 
     return (
         <Box id="files">
             <Header />
-            <TextFieldIcon
-                id="search-input"
-                icon={SearchIcon}
-                label={t('Search')}
-            />
+            <SearchField id="search-input" placeholder={t('Search')} onSearch={(value) => setSearch(value)} />
             <FilesExplorer
                 id='file-explorer'
                 title={t('Files')}

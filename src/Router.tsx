@@ -15,7 +15,8 @@ export default function Router() {
             <App>
                 <Switch>
                     <Route exact path='/login' component={Login} />
-                    <ProtectedRoute path='/files' component={Files} />
+                    <ProtectedRoute path='/files/:origin/:type' component={Files} />
+                    <ProtectedRoute exact path='/files' component={Files} />
                     <ProtectedRoute path='/' component={Home} />
                 </Switch>
             </App>

@@ -2,6 +2,7 @@ import axios from "axios";
 import buildTree from "../helpers/buildTree";
 import { ICloudioFile } from "../models/cloud";
 import { IGoogleAPIAbout, IGoogleAPIFiles, IGoogleFile } from "../models/google";
+import getFileType from "./getFileType";
 
 const api = axios.create({
     baseURL: "https://www.googleapis.com/drive/v3",
@@ -36,6 +37,7 @@ export async function getGoogleDriveFiles(token: string, userEmail: string): Pro
             id,
             name,
             extension: fileExtension,
+            type: getFileType(fileExtension, webViewLink.includes("https://drive.google.com/drive/folders/")),
             size,
             webViewLink,
             downloadLink: webContentLink,

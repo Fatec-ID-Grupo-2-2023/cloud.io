@@ -27,8 +27,6 @@ export default function FilesExplorer({ id, title, link, linkText, layout, files
 
     const currentFiles = path?.length ? path[path.length - 1].childrens : files;
 
-    console.log(path)
-
     function handleBreadcrumbClick(id: string) {
         const newPath = path?.slice(0, path.findIndex((item) => item.id === id) + 1);
         setPath(newPath);
@@ -102,12 +100,12 @@ export default function FilesExplorer({ id, title, link, linkText, layout, files
                 spacing={2}
                 className="content"
             >
-                {currentFiles.map(({ id, name, extension, size, modifiedTime, children, webViewLink }, index) => (
+                {currentFiles.map(({ id, name, type, size, modifiedTime, children, webViewLink }, index) => (
                     <FileListItem
                         key={index}
                         isList={currentLayout === 'list'}
                         fileName={name}
-                        extension={children.length ? 'folder' : extension}
+                        type={type}
                         size={size ? convertSizeFile(size) : undefined}
                         lastModified={modifiedTime}
                         onClick={() => onFileClick(id, name, webViewLink, children)}
