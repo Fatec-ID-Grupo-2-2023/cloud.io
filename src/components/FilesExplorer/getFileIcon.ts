@@ -1,15 +1,15 @@
-import EmptyDocIcon from '../../assets/empty-doc.svg';
-import PDFIcon from '../../assets/pdf.svg';
-import ExcelIcon from '../../assets/excel.svg';
-import WordIcon from '../../assets/word.svg';
-import PPTIcon from '../../assets/ppt.svg';
-import TXTIcon from '../../assets/txt.svg';
-import ZipIcon from '../../assets/zip.svg';
 import CodeIcon from '../../assets/code.svg';
+import EmptyDocIcon from '../../assets/empty-doc.svg';
+import ExcelIcon from '../../assets/excel.svg';
 import FolderIcon from '../../assets/folder.svg';
 import ImageIcon from '../../assets/image.svg';
-import VideoIcon from '../../assets/video.svg';
 import MusicIcon from '../../assets/music.svg';
+import PDFIcon from '../../assets/pdf.svg';
+import PPTIcon from '../../assets/ppt.svg';
+import TXTIcon from '../../assets/txt.svg';
+import VideoIcon from '../../assets/video.svg';
+import WordIcon from '../../assets/word.svg';
+import ZipIcon from '../../assets/zip.svg';
 import { ICloudioType } from '../../models/cloud';
 
 export default function getFileIcon(type: ICloudioType): string {

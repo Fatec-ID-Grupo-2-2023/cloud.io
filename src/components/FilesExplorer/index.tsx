@@ -1,14 +1,14 @@
 import { Box, Breadcrumbs, Grid, IconButton, Link, Typography } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import GridIcon from "../../assets/blocks.svg";
 import ListIcon from "../../assets/list.svg";
 import useToggle from "../../helpers/useToggle";
 import { ICloudioFile } from "../../models/cloud";
+import { convertSizeFile } from "../../utils/convertUnits";
 import { FileListItem } from "./FileListItem";
 import { IPath } from "./model";
 import "./style.scss";
-import { convertSizeFile } from "../../utils/convertUnits";
-import { useTranslation } from "react-i18next";
 
 interface IProps {
     id?: string;

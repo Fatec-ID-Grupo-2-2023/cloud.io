@@ -1,8 +1,8 @@
 import { Box, Card, CardActionArea, CardActions, CardContent, Grid, IconButton, Typography } from "@mui/material";
-import getFileIcon from "./getFileIcon";
-import DotsIcon from "../../assets/dots.svg";
 import { useTranslation } from "react-i18next";
+import DotsIcon from "../../assets/dots.svg";
 import { ICloudioType } from "../../models/cloud";
+import getFileIcon from "./getFileIcon";
 
 interface IProps {
     fileName: string;

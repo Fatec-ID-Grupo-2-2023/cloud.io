@@ -1,15 +1,15 @@
 import { Box } from '@mui/material';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import FilesExplorer from '../../components/FilesExplorer';
 import Header from '../../components/Header';
 import NavBar from '../../components/NavBar';
 import SearchField from '../../components/SearchField';
 import { GlobalContext } from '../../contexts/GlobalContext';
-import './style.scss';
-import filterFiles from './filterFiles';
-import { useParams } from 'react-router-dom';
 import { ICloudioOrigin, ICloudioType } from '../../models/cloud';
+import filterFiles from './filterFiles';
+import './style.scss';
 
 interface IParams {
     origin?: ICloudioOrigin;

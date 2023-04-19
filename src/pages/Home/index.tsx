@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import DocIcon from "../../assets/empty-doc.svg";
 import ImageIcon from "../../assets/image.svg";
 import MusicIcon from "../../assets/music.svg";
@@ -12,11 +13,10 @@ import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
 import ProgressBar from "../../components/ProgressBar";
 import { GlobalContext } from "../../contexts/GlobalContext";
+import { ICloudioOrigin, ICloudioType } from "../../models/cloud";
 import { convertSizeFile } from "../../utils/convertUnits";
 import getCloudIcon from "./getCloudIcon";
 import "./style.scss";
-import { useHistory } from "react-router-dom";
-import { ICloudioOrigin, ICloudioType } from "../../models/cloud";
 
 export default function Home() {
     const { user, cloudStorage: { usage, limit, accounts } } = useContext(GlobalContext);
