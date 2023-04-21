@@ -31,18 +31,19 @@ export async function getGoogleDriveFiles(token: string, userEmail: string): Pro
     //remove trash and files that are not owned by the user
     const userFiles = rawFiles.filter(({ trashed, owners }) => !trashed && owners.some(({ emailAddress }) => emailAddress === userEmail));
 
+    console.log(userFiles)
 
     const files = userFiles.map<ICloudioFile>(({ id, name, fileExtension, size, webViewLink, webContentLink, shared, trashed, modifiedTime, parents }) => {
         return {
             id,
             name,
             extension: fileExtension,
-            type: getFileType(fileExtension, webViewLink.includes("https://drive.google.com/drive/folders/")),
+            type: getType(webViewLink, fileExtension),
             size,
             webViewLink,
             downloadLink: webContentLink,
-            shared: shared,
-            trashed: trashed,
+            shared,
+            trashed,
             modifiedTime: new Date(modifiedTime),
             origin: "google-drive",
             parent: parents ? parents[0] : '',
@@ -69,4 +70,23 @@ export async function getGoogleDriveAbout(token: string) {
     });
 
     return storageQuota;
+}
+
+function getType(webViewLink: string, fileExtension?: string) {
+    const isFolder = webViewLink.includes("https://drive.google.com/drive/folders/");
+
+    if (!fileExtension && !isFolder) {
+        if (webViewLink.includes("https://docs.google.com/spreadsheets/")) {
+            fileExtension = "xlsx";
+        } else if (webViewLink.includes("https://docs.google.com/document/")) {
+            fileExtension = "docx";
+        } else if (webViewLink.includes("https://docs.google.com/presentation/")) {
+            fileExtension = "pptx";
+        }
+
+    }
+
+    const type = getFileType(fileExtension, isFolder);
+
+    return type;
 }
