@@ -1,6 +1,7 @@
 import { Box, Breadcrumbs, Grid, IconButton, Link, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import GridIcon from "../../assets/blocks.svg";
 import ListIcon from "../../assets/list.svg";
 import useToggle from "../../helpers/useToggle";
@@ -14,7 +15,7 @@ interface IProps {
     id?: string;
     title?: string | null;
     link?: string;
-    linkText?: string;
+    linkText?: string | null;
     layout?: boolean;
     files: ICloudioFile[];
     breadcrumbs?: boolean;
@@ -24,6 +25,7 @@ export default function FilesExplorer({ id, title, link, linkText, layout, files
     const [currentLayout, toggleLayout] = useToggle("list", "grid");
     const [path, setPath] = useState<IPath[]>();
     const { t } = useTranslation();
+    const history = useHistory();
 
     const currentFiles = path?.length ? path[path.length - 1].childrens : files;
 
@@ -82,8 +84,8 @@ export default function FilesExplorer({ id, title, link, linkText, layout, files
                 <Box className="link-layout" >
                     {(link && linkText) && (
                         <Link
-                            href={link}
                             color="secondary"
+                            onClick={() => history.push(link)}
                         >
                             <Typography>{linkText}</Typography>
                         </Link>

@@ -8,7 +8,7 @@ import NavBar from '../../components/NavBar';
 import SearchField from '../../components/SearchField';
 import { GlobalContext } from '../../contexts/GlobalContext';
 import { ICloudioOrigin, ICloudioType } from '../../models/cloud';
-import filterFiles from './filterFiles';
+import { filterFiles } from '../../utils/filterFiles';
 import './style.scss';
 
 interface IParams {

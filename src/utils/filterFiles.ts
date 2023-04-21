@@ -1,6 +1,6 @@
-import { ICloudioFile, ICloudioOrigin, ICloudioType } from "../../models/cloud";
+import { ICloudioFile, ICloudioOrigin, ICloudioType } from "../models/cloud";
 
-export default function filterFiles(files: ICloudioFile[], byName?: string, byOrigin?: ICloudioOrigin, byType?: ICloudioType) {
+export function filterFiles(files: ICloudioFile[], byName?: string, byOrigin?: ICloudioOrigin, byType?: ICloudioType) {
     let filteredFiles = files;
 
     if (byName) {
@@ -36,6 +36,14 @@ function filterTree(files: ICloudioFile[], value: string, field: string) {
             }
         }
     });
+
+    return filteredFiles;
+}
+
+export function filterRecents(files: ICloudioFile[], quantity: number = 5) {
+    const filteredFiles = files.sort((a, b) => {
+        return b.modifiedTime.getTime() - a.modifiedTime.getTime();
+    }).slice(0, quantity);
 
     return filteredFiles;
 }

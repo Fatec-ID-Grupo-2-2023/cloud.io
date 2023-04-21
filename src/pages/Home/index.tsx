@@ -8,18 +8,19 @@ import MusicIcon from "../../assets/music.svg";
 import VideoIcon from "../../assets/video.svg";
 import CategoryButton from "../../components/CategoryButton";
 import CloudAccount from "../../components/CloudAccount";
-import CloudAccountEmpty from "../../components/CloudAccountEmpty";
+import FilesExplorer from "../../components/FilesExplorer";
 import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
 import ProgressBar from "../../components/ProgressBar";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import { ICloudioOrigin, ICloudioType } from "../../models/cloud";
 import { convertSizeFile } from "../../utils/convertUnits";
+import { filterRecents } from "../../utils/filterFiles";
 import getCloudIcon from "./getCloudIcon";
 import "./style.scss";
 
 export default function Home() {
-    const { user, cloudStorage: { usage, limit, accounts } } = useContext(GlobalContext);
+    const { user, cloudStorage: { usage, limit, accounts }, cloudFiles } = useContext(GlobalContext);
     const { t } = useTranslation();
     const history = useHistory();
 
@@ -28,6 +29,8 @@ export default function Home() {
     function handleClick(origin: ICloudioOrigin = "all", type: ICloudioType = "all") {
         history.push(`/files/${origin}/${type}`);
     }
+
+    const recentFiles = filterRecents(cloudFiles);
 
     return (
         <Box id="home">
@@ -52,7 +55,7 @@ export default function Home() {
                 {accounts.map(({ id, name, usage, limit }, index) => (
                     <CloudAccount key={index} icon={getCloudIcon(id)} title={name} usage={usage} limit={limit} onClick={() => handleClick(id)} />
                 ))}
-                <CloudAccountEmpty onClick={() => console.log('kk')} />
+                {/* <CloudAccountEmpty onClick={() => console.log('kk')} /> */}
             </section>
 
             <section id="file-categories" >
@@ -62,6 +65,15 @@ export default function Home() {
                 <CategoryButton icon={MusicIcon} onClick={() => handleClick("all", "audio")} />
             </section>
 
+            <section id="file-recents" >
+                <FilesExplorer
+                    id='recents'
+                    title={t('Recents')}
+                    files={recentFiles}
+                    linkText={t('ViewAll')}
+                    link='/files'
+                />
+            </section>
             <NavBar />
         </Box >
     );

@@ -2,7 +2,7 @@ import axios from "axios";
 import buildTree from "../helpers/buildTree";
 import { ICloudioFile } from "../models/cloud";
 import { IGoogleAPIAbout, IGoogleAPIFiles, IGoogleFile } from "../models/google";
-import getFileType from "./getFileType";
+import getFileType from "../utils/getFileType";
 
 const api = axios.create({
     baseURL: "https://www.googleapis.com/drive/v3",
