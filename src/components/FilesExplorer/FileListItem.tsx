@@ -1,18 +1,19 @@
 import { Box, Card, CardActionArea, CardActions, CardContent, Grid, IconButton, Typography } from "@mui/material";
-import getFileIcon from "./getFileIcon";
-import DotsIcon from "../../assets/dots.svg";
 import { useTranslation } from "react-i18next";
+import DotsIcon from "../../assets/dots.svg";
+import { ICloudioType } from "../../models/cloud";
+import getFileIcon from "./getFileIcon";
 
 interface IProps {
     fileName: string;
     isList?: boolean;
-    extension?: string;
+    type: ICloudioType;
     lastModified?: Date;
     size?: string;
     onClick: () => void;
 }
 
-export function FileListItem({ isList = true, fileName, extension, lastModified, size, onClick }: IProps) {
+export function FileListItem({ isList = true, fileName, type, lastModified, size, onClick }: IProps) {
     const { t } = useTranslation();
     return (
         <Grid
@@ -28,7 +29,7 @@ export function FileListItem({ isList = true, fileName, extension, lastModified,
                 <Card className='card list'>
                     <CardActionArea onClick={onClick}>
                         <CardContent className='content'>
-                            <img className="file-icon" src={getFileIcon(extension)} />
+                            <img className="file-icon" src={getFileIcon(type)} />
                             <Box className='text'>
                                 <Typography variant="h3" >{fileName}</Typography>
                                 <Typography variant="h4" >
@@ -55,7 +56,7 @@ export function FileListItem({ isList = true, fileName, extension, lastModified,
                     </CardActions>
                     <CardActionArea onClick={onClick}>
                         <CardContent className='content'>
-                            <img className="file-icon" src={getFileIcon(extension)} />
+                            <img className="file-icon" src={getFileIcon(type)} />
                             <Typography variant="h3" >{fileName}</Typography>
                         </CardContent>
                     </CardActionArea>

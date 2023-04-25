@@ -1,20 +1,21 @@
 import { Box, Breadcrumbs, Grid, IconButton, Link, Typography } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import GridIcon from "../../assets/blocks.svg";
 import ListIcon from "../../assets/list.svg";
 import useToggle from "../../helpers/useToggle";
 import { ICloudioFile } from "../../models/cloud";
+import { convertSizeFile } from "../../utils/convertUnits";
 import { FileListItem } from "./FileListItem";
 import { IPath } from "./model";
 import "./style.scss";
-import { convertSizeFile } from "../../utils/convertUnits";
-import { useTranslation } from "react-i18next";
 
 interface IProps {
     id?: string;
     title?: string | null;
     link?: string;
-    linkText?: string;
+    linkText?: string | null;
     layout?: boolean;
     files: ICloudioFile[];
     breadcrumbs?: boolean;
@@ -24,10 +25,9 @@ export default function FilesExplorer({ id, title, link, linkText, layout, files
     const [currentLayout, toggleLayout] = useToggle("list", "grid");
     const [path, setPath] = useState<IPath[]>();
     const { t } = useTranslation();
+    const history = useHistory();
 
     const currentFiles = path?.length ? path[path.length - 1].childrens : files;
-
-    console.log(path)
 
     function handleBreadcrumbClick(id: string) {
         const newPath = path?.slice(0, path.findIndex((item) => item.id === id) + 1);
@@ -84,8 +84,8 @@ export default function FilesExplorer({ id, title, link, linkText, layout, files
                 <Box className="link-layout" >
                     {(link && linkText) && (
                         <Link
-                            href={link}
                             color="secondary"
+                            onClick={() => history.push(link)}
                         >
                             <Typography>{linkText}</Typography>
                         </Link>
@@ -102,12 +102,12 @@ export default function FilesExplorer({ id, title, link, linkText, layout, files
                 spacing={2}
                 className="content"
             >
-                {currentFiles.map(({ id, name, extension, size, modifiedTime, children, webViewLink }, index) => (
+                {currentFiles.map(({ id, name, type, size, modifiedTime, children, webViewLink }, index) => (
                     <FileListItem
                         key={index}
                         isList={currentLayout === 'list'}
                         fileName={name}
-                        extension={children.length ? 'folder' : extension}
+                        type={type}
                         size={size ? convertSizeFile(size) : undefined}
                         lastModified={modifiedTime}
                         onClick={() => onFileClick(id, name, webViewLink, children)}

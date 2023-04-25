@@ -7,5 +7,13 @@
   "Settings": "Settings",
   "Logout": "Logout",
   "Storage": "Storage",
-  "LastModifiedAt": "Last modified at"
+  "LastModifiedAt": "Last modified at",
+<<<<<<< Updated upstream
+  "ViewAll": "View All"
+=======
+  "General": "General",
+  "pt": "Portuguese",
+  "en": "English",
+  "Language": "Language"
+>>>>>>> Stashed changes
 }

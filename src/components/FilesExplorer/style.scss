@@ -46,6 +46,7 @@
                     align-self: flex-end;
                     padding: 0;
                     z-index: 1;
+                    display: none;
 
                     img {
                         width: 30px;
@@ -85,7 +86,7 @@
                     .text {
                         display: flex;
                         flex-direction: column;
-                        width: 100%;
+                        width: 85%;
 
                         gap: 4px;
 

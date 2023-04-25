@@ -3,9 +3,15 @@ import { ICloudioFile, ICloudioStorage } from "../models/cloud";
 import { IGoogleDriveStorage, IGoogleUser } from "../models/google";
 import { getGoogleDriveAbout, getGoogleDriveFiles } from "../services/fetchGoogleDriveData";
 import { IGlobalContext } from "./GlobalContext";
+import { useLocalStorage } from "../helpers/useLocalStorage";
+import { useTranslation } from "react-i18next";
 
 export default function useGlobalContext(): IGlobalContext {
+    const { i18n } = useTranslation();
+
     const [user, setUser] = useState<IGoogleUser>(undefined);
+
+    const [language, setLanguage] = useLocalStorage("language", "en");
 
     const [googleDriveFiles, setGoogleDriveFiles] = useState<ICloudioFile[]>([]);
     const [googleDriveStorage, setGoogleDriveStorage] = useState<IGoogleDriveStorage>({
@@ -14,6 +20,10 @@ export default function useGlobalContext(): IGlobalContext {
         usageInDrive: 0,
         usageInDriveTrash: 0
     });
+
+    useEffect(() => {
+        i18n.changeLanguage(language);
+    }, [language])
 
 
     const cloudFiles = useMemo<ICloudioFile[]>(() => {
@@ -66,11 +76,15 @@ export default function useGlobalContext(): IGlobalContext {
         user,
         setUser,
         cloudFiles,
-        cloudStorage
+        cloudStorage,
+        language,
+        setLanguage
     }), [
         user,
         setUser,
         cloudFiles,
-        cloudStorage
+        cloudStorage,
+        language,
+        setLanguage
     ]);
 }

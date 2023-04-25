@@ -5,7 +5,7 @@ import { GlobalContext } from '../../contexts/GlobalContext';
 
 const clientId = "840694087672-q5jr4irk22t3ompetcsu4n9m0ods8ack.apps.googleusercontent.com"
 
-export default function Login() {
+export default function LoginButton() {
     const history = useHistory();
     const { setUser } = useContext(GlobalContext);
 

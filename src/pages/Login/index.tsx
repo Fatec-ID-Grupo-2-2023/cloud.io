@@ -1,18 +1,13 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Box, Button } from '@mui/material';
 import Container from '@mui/material/Container';
-
-
-import { Box, Button } from '@mui/material'
-import axios from 'axios'
-import { gapi } from 'gapi-script'
-import { useEffect } from 'react'
-import LoginButton from '../../components/Login'
-import LogoutButton from '../../components/Logout'
-import theme from '../../styles/theme';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { gapi } from 'gapi-script';
+import * as React from 'react';
+import { useEffect } from 'react';
+import LoginButton from '../../components/LoginButton';
 import "./style.scss";
 
 

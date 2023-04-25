@@ -8,22 +8,25 @@ export interface ICloudioFile {
     id: string;
     name: string;
     extension?: string;
+    type: ICloudioType;
     trashed: boolean;
     modifiedTime: Date;
     downloadLink?: string;
     webViewLink: string;
     size?: number;
     shared: boolean;
-    origin: ICloudioType;
+    origin: ICloudioOrigin;
     parent: string;
     children: ICloudioFile[];
 }
 
 interface ICloudioAccount {
-    id: ICloudioType;
+    id: ICloudioOrigin;
     name: string;
     usage: number;
     limit: number;
 }
 
-export type ICloudioType = "google-drive" | "dropbox" | "onedrive";
+export type ICloudioOrigin = "google-drive" | "dropbox" | "onedrive" | "all";
+
+export type ICloudioType = "folder" | "image" | "video" | "audio" | "document" | "text" | "zip" | "code" | "spreadsheet" | "presentation" | "pdf" | "other" | "all";

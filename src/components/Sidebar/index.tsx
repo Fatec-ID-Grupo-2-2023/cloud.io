@@ -9,6 +9,8 @@ import Cloud from '../../assets/Cloud.svg'
 import ProgressBar from "../../components/ProgressBar";
 import { useContext } from "react";
 import { GlobalContext } from "../../contexts/GlobalContext";
+import LogoutButton from "../LogoutButton";
+import { useHistory } from "react-router-dom";
 
 interface IProps {
     open: boolean;
@@ -17,6 +19,7 @@ interface IProps {
 
 export default function Sidebar({ open, onClose }: IProps) {
     const { t } = useTranslation();
+    const history = useHistory();
     const { cloudStorage: { usage, limit } } = useContext(GlobalContext);
 
     const items = [
@@ -28,23 +31,18 @@ export default function Sidebar({ open, onClose }: IProps) {
         {
             text: t("Settings"),
             img: SettingsIcon,
-            onClick() { console.log("Settings") }
+            onClick() { history.push('/settings') }
         },
-        {
-            text: t("Logout"),
-            img: LogoutIcon,
-            onClick() { console.log("Logout") }
-        }
     ]
 
     return (
         <Drawer id="sidebar" anchor={'left'} open={open} onClose={onClose}>
             <Box className="header">
-                <img src={Logo} />
+                <img src={Logo} alt=""/>
             </Box>
             <Box className="storage">
                 <Box className="item">
-                    <img src={Cloud} />
+                    <img src={Cloud} alt=""/>
                     <Typography variant="body1">{t('Storage')}</Typography>
                 </Box>
                 <ProgressBar usedCapacity={usage} totalCapacity={limit} />
@@ -60,6 +58,15 @@ export default function Sidebar({ open, onClose }: IProps) {
                         </ListItemButton>
                     </ListItem>
                 ))}
+                <ListItem disablePadding>
+                    <ListItemButton>
+                        <LogoutButton />
+                        <ListItemIcon>
+                            <img src={LogoutIcon} alt="" />
+                        </ListItemIcon>
+                        <ListItemText primary={"Logout"} />
+                    </ListItemButton>
+                </ListItem>
             </List>
         </Drawer>
     )
