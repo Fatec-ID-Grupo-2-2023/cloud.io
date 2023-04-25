@@ -1,4 +1,19 @@
 {
-    "HiUser": "Hi, {{user}}",
-    "FreeStorageMsg": "You have <span>{{freeStorage}} GB</span> of free storage"
+  "HiUser": "Hi, {{user}}",
+  "FreeStorageMsg": "You have <span>{{freeStorage}}</span> of free storage",
+  "Search": "Search",
+  "Files": "Files",
+  "Recents": "Recents",
+  "Settings": "Settings",
+  "Logout": "Logout",
+  "Storage": "Storage",
+  "LastModifiedAt": "Last modified at",
+<<<<<<< Updated upstream
+  "ViewAll": "View All"
+=======
+  "General": "General",
+  "pt": "Portuguese",
+  "en": "English",
+  "Language": "Language"
+>>>>>>> Stashed changes
 }

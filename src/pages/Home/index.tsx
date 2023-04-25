@@ -1,28 +1,36 @@
 import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import CloudAccount from "../../components/CloudAccount";
-import Header from "../../components/Header";
-import ProgressBar from "../../components/ProgressBar";
-import { GlobalContext } from "../../contexts/GlobalContext";
-import "./style.scss";
-
-import DropBoxIcon from "../../assets/dropbox.svg";
-import GoogleDriveIcon from "../../assets/google-drive.svg";
+import { useHistory } from "react-router-dom";
 import DocIcon from "../../assets/empty-doc.svg";
 import ImageIcon from "../../assets/image.svg";
-import VideoIcon from "../../assets/video.svg";
 import MusicIcon from "../../assets/music.svg";
-import OneDriveIcon from "../../assets/one-drive.svg";
+import VideoIcon from "../../assets/video.svg";
 import CategoryButton from "../../components/CategoryButton";
-import CloudAccountEmpty from "../../components/CloudAccountEmpty";
+import CloudAccount from "../../components/CloudAccount";
+import FilesExplorer from "../../components/FilesExplorer";
+import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
+import ProgressBar from "../../components/ProgressBar";
+import { GlobalContext } from "../../contexts/GlobalContext";
+import { ICloudioOrigin, ICloudioType } from "../../models/cloud";
+import { convertSizeFile } from "../../utils/convertUnits";
+import { filterRecents } from "../../utils/filterFiles";
+import getCloudIcon from "./getCloudIcon";
+import "./style.scss";
 
 export default function Home() {
-    const { user, cloudStorage, googleDriveStorage } = useContext(GlobalContext);
+    const { user, cloudStorage: { usage, limit, accounts }, cloudFiles } = useContext(GlobalContext);
     const { t } = useTranslation();
+    const history = useHistory();
 
-    const freeStorage = (cloudStorage.limit - cloudStorage.usage).toFixed(2);
+    const freeStorage = convertSizeFile(limit - usage);
+
+    function handleClick(origin: ICloudioOrigin = "all", type: ICloudioType = "all") {
+        history.push(`/files/${origin}/${type}`);
+    }
+
+    const recentFiles = filterRecents(cloudFiles);
 
     return (
         <Box id="home">
@@ -38,25 +46,34 @@ export default function Home() {
                     }}
                 />
                 <ProgressBar
-                    usedCapacity={cloudStorage.usage}
-                    totalCapacity={cloudStorage.limit}
+                    usedCapacity={usage}
+                    totalCapacity={limit}
                 />
             </section>
 
             <section id="cloud-accounts" >
-                <CloudAccount icon={GoogleDriveIcon} title="Google Drive" limit={googleDriveStorage.limit} usage={googleDriveStorage.usage} />
-                <CloudAccount icon={OneDriveIcon} title="One Drive" limit={googleDriveStorage.limit} usage={googleDriveStorage.usage} />
-                <CloudAccount icon={DropBoxIcon} title="Drop Box" limit={googleDriveStorage.limit} usage={googleDriveStorage.usage} />
-                <CloudAccountEmpty onClick={() => console.log('kk')} />
+                {accounts.map(({ id, name, usage, limit }, index) => (
+                    <CloudAccount key={index} icon={getCloudIcon(id)} title={name} usage={usage} limit={limit} onClick={() => handleClick(id)} />
+                ))}
+                {/* <CloudAccountEmpty onClick={() => console.log('kk')} /> */}
             </section>
 
             <section id="file-categories" >
-                <CategoryButton icon={DocIcon} />
-                <CategoryButton icon={ImageIcon} />
-                <CategoryButton icon={VideoIcon} />
-                <CategoryButton icon={MusicIcon} />
+                <CategoryButton icon={DocIcon} onClick={() => handleClick("all", "document")} />
+                <CategoryButton icon={ImageIcon} onClick={() => handleClick("all", "image")} />
+                <CategoryButton icon={VideoIcon} onClick={() => handleClick("all", "video")} />
+                <CategoryButton icon={MusicIcon} onClick={() => handleClick("all", "audio")} />
             </section>
 
+            <section id="file-recents" >
+                <FilesExplorer
+                    id='recents'
+                    title={t('Recents')}
+                    files={recentFiles}
+                    linkText={t('ViewAll')}
+                    link='/files'
+                />
+            </section>
             <NavBar />
         </Box >
     );

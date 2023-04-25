@@ -1,3 +1,4 @@
+import { convertSizeFile } from "../../utils/convertUnits";
 import "./style.scss";
 import { Box, LinearProgress, Typography } from "@mui/material";
 
@@ -25,14 +26,14 @@ export default function ProgressBar({ usedCapacity, totalCapacity }: IProps) {
                         fontSize={10}
                         fontWeight={'medium'}
                     >
-                        {usedCapacity.toFixed(2)} GB
+                        {convertSizeFile(usedCapacity)}
                     </Typography>
                     <Typography
                         variant="caption"
                         fontSize={10}
                         fontWeight={'medium'}
                     >
-                        {totalCapacity.toFixed(2)} GB
+                        {convertSizeFile(totalCapacity)}
                     </Typography>
                 </Box>
             )}

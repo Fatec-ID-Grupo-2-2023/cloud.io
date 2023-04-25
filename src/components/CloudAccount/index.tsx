@@ -7,12 +7,13 @@ interface IProps {
     title: string;
     usage: number;
     limit: number;
+    onClick: () => void;
 }
 
-export default function CloudAccount({ icon, title, usage, limit }: IProps) {
+export default function CloudAccount({ icon, title, usage, limit, onClick }: IProps) {
     return (
         <Card className='cloud-account'>
-            <CardActionArea>
+            <CardActionArea onClick={onClick}>
                 <CardContent className='content'>
                     <Box className="box-icon">
                         <span />

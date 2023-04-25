@@ -1,16 +1,19 @@
-import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { IGoogleAPIAbout, IGoogleAPIFiles, IGoogleDriveStorage, IGoogleUser } from "../models/google";
-import { convertBytesToGB } from "../utils/convertUnits";
+import { ICloudioFile, ICloudioStorage } from "../models/cloud";
+import { IGoogleDriveStorage, IGoogleUser } from "../models/google";
+import { getGoogleDriveAbout, getGoogleDriveFiles } from "../services/fetchGoogleDriveData";
 import { IGlobalContext } from "./GlobalContext";
+import { useLocalStorage } from "../helpers/useLocalStorage";
+import { useTranslation } from "react-i18next";
 
 export default function useGlobalContext(): IGlobalContext {
+    const { i18n } = useTranslation();
+
     const [user, setUser] = useState<IGoogleUser>(undefined);
 
-    const [googleDriveFiles, setGoogleDriveFiles] = useState<IGoogleAPIFiles>({
-        files: [],
-        nextPageToken: ''
-    });
+    const [language, setLanguage] = useLocalStorage("language", "en");
+
+    const [googleDriveFiles, setGoogleDriveFiles] = useState<ICloudioFile[]>([]);
     const [googleDriveStorage, setGoogleDriveStorage] = useState<IGoogleDriveStorage>({
         usage: 0,
         limit: 0,
@@ -18,51 +21,44 @@ export default function useGlobalContext(): IGlobalContext {
         usageInDriveTrash: 0
     });
 
+    useEffect(() => {
+        i18n.changeLanguage(language);
+    }, [language])
 
-    const cloudFiles = useMemo(() => {
-        return googleDriveFiles.files;
+
+    const cloudFiles = useMemo<ICloudioFile[]>(() => {
+        return googleDriveFiles;
     }, [googleDriveFiles]);
 
-    const cloudStorage = useMemo(() => {
+    const cloudStorage = useMemo<ICloudioStorage>(() => {
+        const usage = googleDriveStorage.usage;
+        const limit = googleDriveStorage.limit;
+
         return {
-            usage: googleDriveStorage.usage,
-            limit: googleDriveStorage.limit
+            usage,
+            limit,
+            accounts: [
+                {
+                    id: "google-drive",
+                    name: "Google Drive",
+                    usage: googleDriveStorage.usage,
+                    limit: googleDriveStorage.limit
+                }
+            ]
         };
     }, [googleDriveStorage]);
 
 
     useEffect(() => {
         if (user) {
-            axios.get<IGoogleAPIFiles>('https://www.googleapis.com/drive/v3/files', {
-                headers: {
-                    Authorization: `Bearer ${user.accessToken}`
-                },
-                params: {
-                    fields: 'files(id,kind,name,fileExtension,trashed,modifiedTime,parents,webContentLink,webViewLink,size,shared,owners(displayName,photoLink,emailAddress))',
-                }
-            }).then(({ data }) => {
-                const { files, nextPageToken } = data;
-
-                setGoogleDriveFiles({
-                    files,
-                    nextPageToken
-                });
+            getGoogleDriveFiles(user.accessToken, user.profileObj.email).then((files) => {
+                setGoogleDriveFiles(files);
             }).catch((error) => {
                 console.error(error);
             });
 
-            axios.get<IGoogleAPIAbout>('https://www.googleapis.com/drive/v3/about', {
-                headers: {
-                    Authorization: `Bearer ${user.accessToken}`
-                },
-                params: {
-                    fields: 'storageQuota'
-                }
-            }).then(({ data }) => {
-                const usage = convertBytesToGB(data.storageQuota.usage);
-                const limit = convertBytesToGB(data.storageQuota.limit);
-                const usageInDrive = convertBytesToGB(data.storageQuota.usageInDrive);
-                const usageInDriveTrash = convertBytesToGB(data.storageQuota.usageInDriveTrash);
+            getGoogleDriveAbout(user.accessToken).then((response) => {
+                const { usage, limit, usageInDrive, usageInDriveTrash } = response;
 
                 setGoogleDriveStorage({
                     usage,
@@ -81,18 +77,14 @@ export default function useGlobalContext(): IGlobalContext {
         setUser,
         cloudFiles,
         cloudStorage,
-        googleDriveFiles,
-        setGoogleDriveFiles,
-        googleDriveStorage,
-        setGoogleDriveStorage
+        language,
+        setLanguage
     }), [
         user,
         setUser,
         cloudFiles,
         cloudStorage,
-        googleDriveFiles,
-        setGoogleDriveFiles,
-        googleDriveStorage,
-        setGoogleDriveStorage
+        language,
+        setLanguage
     ]);
 }

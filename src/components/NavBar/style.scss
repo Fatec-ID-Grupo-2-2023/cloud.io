@@ -16,6 +16,7 @@
         left: calc(50vw - 40px);
 
         button {
+            transition: none !important;
             width: 60px;
             height: 60px;
             background-color: var(--black3);

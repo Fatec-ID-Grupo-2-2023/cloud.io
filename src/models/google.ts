@@ -1,4 +1,4 @@
-import { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
+import { GoogleLoginResponse } from "react-google-login";
 
 export type IGoogleUser = GoogleLoginResponse | undefined;
 
@@ -13,17 +13,16 @@ export interface IGoogleFileOwner {
     emailAddress: string;
 }
 
-interface IGoogleFile {
+export interface IGoogleFile {
     id: string;
-    kind: string;
     name: string;
-    fileExtension: string;
+    fileExtension?: string;
     trashed: boolean;
-    modifiedTime: Date;
-    parents: string[];
-    webContentLink: string;
+    modifiedTime: string;
+    parents?: string[];
+    webContentLink?: string;
     webViewLink: string;
-    size: number;
+    size?: number;
     shared: boolean;
     owners: IGoogleFileOwner[];
 }
