@@ -2,8 +2,8 @@ import { Box, Button } from '@mui/material'
 import axios from 'axios'
 import { gapi } from 'gapi-script'
 import { useEffect } from 'react'
-import LoginButton from '../../components/Login'
-import LogoutButton from '../../components/Logout'
+import LoginButton from '../../components/LoginButton'
+import LogoutButton from '../../components/LogoutButton'
 
 export default function Login() {
     const clientId = "840694087672-q5jr4irk22t3ompetcsu4n9m0ods8ack.apps.googleusercontent.com"
@@ -24,7 +24,6 @@ export default function Login() {
     return (
         <Box>
             <LoginButton />
-            <LogoutButton />
         </Box>
     );
 }
