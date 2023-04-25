@@ -8,12 +8,9 @@
   "Logout": "Logout",
   "Storage": "Storage",
   "LastModifiedAt": "Last modified at",
-<<<<<<< Updated upstream
-  "ViewAll": "View All"
-=======
+  "ViewAll": "View All",
   "General": "General",
   "pt": "Portuguese",
   "en": "English",
   "Language": "Language"
->>>>>>> Stashed changes
 }

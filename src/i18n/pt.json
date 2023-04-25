@@ -8,12 +8,9 @@
   "Logout": "Sair",
   "Storage": "Armazenamento",
   "LastModifiedAt": "Modificado em",
-<<<<<<< Updated upstream
-  "ViewAll": "Ver Todos"
-=======
+  "ViewAll": "Ver Todos",
   "General": "Geral",
   "pt": "Português",
   "en": "Inglês",
   "Language": "Idioma"
->>>>>>> Stashed changes
 }
