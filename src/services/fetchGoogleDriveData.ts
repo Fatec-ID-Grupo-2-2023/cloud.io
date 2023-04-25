@@ -29,9 +29,13 @@ export async function getGoogleDriveFiles(token: string, userEmail: string): Pro
     } while (nextPageToken);
 
     //remove trash and files that are not owned by the user
+<<<<<<< Updated upstream
     const userFiles = rawFiles.filter(({ trashed, owners }) => !trashed && owners.some(({ emailAddress }) => emailAddress === userEmail));
 
     console.log(userFiles)
+=======
+    const userFiles = rawFiles.filter(({ trashed, shared }) => !trashed && !shared);
+>>>>>>> Stashed changes
 
     const files = userFiles.map<ICloudioFile>(({ id, name, fileExtension, size, webViewLink, webContentLink, shared, trashed, modifiedTime, parents }) => {
         return {

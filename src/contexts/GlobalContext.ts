@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { ICloudioFile, ICloudioStorage } from '../models/cloud';
 import { IGoogleUser } from '../models/google';
+import { ILanguage } from '../models/general';
 
 export interface IGlobalContext {
     user: IGoogleUser;
@@ -8,6 +9,9 @@ export interface IGlobalContext {
 
     cloudFiles: ICloudioFile[];
     cloudStorage: ICloudioStorage;
+
+    language: ILanguage;
+    setLanguage: (language: ILanguage) => void;
 }
 
 export const GlobalContext = createContext<IGlobalContext>({
@@ -20,4 +24,7 @@ export const GlobalContext = createContext<IGlobalContext>({
         limit: 0,
         accounts: []
     },
+
+    language: 'en',
+    setLanguage: (language: ILanguage) => { }
 });
