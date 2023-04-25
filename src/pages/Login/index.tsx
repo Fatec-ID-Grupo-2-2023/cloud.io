@@ -82,7 +82,6 @@ export default function Login() {
 						autoFocus
 					/>
 					<TextField
-						color='info'
 						variant='filled'
 						margin="normal"
 						required
