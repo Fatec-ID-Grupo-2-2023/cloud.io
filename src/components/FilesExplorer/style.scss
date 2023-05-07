@@ -46,7 +46,6 @@
                     align-self: flex-end;
                     padding: 0;
                     z-index: 1;
-                    display: none;
 
                     img {
                         width: 30px;
@@ -119,6 +118,18 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.menu-dots {
+    .menu-item {
+        padding: 2px 14px;
+        gap: 8px;
+
+        img {
+            width: 30px;
+            height: 30px;
         }
     }
 }

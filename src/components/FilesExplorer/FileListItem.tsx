@@ -1,7 +1,7 @@
-import { Box, Card, CardActionArea, CardActions, CardContent, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardActions, CardContent, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import DotsIcon from "../../assets/dots.svg";
 import { ICloudioType } from "../../models/cloud";
+import MenuButton from "./MenuButton";
 import getFileIcon from "./getFileIcon";
 
 interface IProps {
@@ -42,17 +42,13 @@ export function FileListItem({ isList = true, fileName, type, lastModified, size
                         </CardContent>
                     </CardActionArea>
                     <CardActions className='menu'>
-                        <IconButton>
-                            <img src={DotsIcon} />
-                        </IconButton>
+                        <MenuButton />
                     </CardActions>
                 </Card>
             ) : (
                 <Card className='card block'>
                     <CardActions className='menu'>
-                        <IconButton>
-                            <img src={DotsIcon} />
-                        </IconButton>
+                        <MenuButton />
                     </CardActions>
                     <CardActionArea onClick={onClick}>
                         <CardContent className='content'>
